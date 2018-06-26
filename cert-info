@@ -1,0 +1,14 @@
+#! /usr/bin/env python3
+import sys
+import ssl
+import tempfile
+from pprint import pprint
+
+if __name__ == '__main__':
+    domain = sys.argv[1]
+    cert = ssl.get_server_certificate((domain, 443))
+    fd = tempfile.NamedTemporaryFile(mode='w+')
+    fd.write(cert)
+    fd.seek(0)
+    info = ssl._ssl._test_decode_cert(fd.name)
+    pprint(info)
